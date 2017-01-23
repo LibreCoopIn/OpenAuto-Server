@@ -8,7 +8,7 @@ build:
     - gem install compass
     - npm install
     - script:
-         name: run gulp tasks
+         name: "run gulp tasks"
          code: 
 		- gulp styles
 		- gulp scripts
