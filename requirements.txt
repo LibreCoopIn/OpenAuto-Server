@@ -1,2 +1,8 @@
 django==1.10.2
 django-gulp
+coreapi>=1.32.0
+markdown>=2.1.0
+django-filter>=0.9.2
+django-crispy-forms
+django-guardian>=1.1.1
+djangorestframework
