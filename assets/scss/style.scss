@@ -1,0 +1,12 @@
+// Screen
+// ======
+
+@import "grids";
+
+.container {
+  @include container(80em);
+}
+nav {
+  background: #72A839;
+}
+

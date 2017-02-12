@@ -7,13 +7,17 @@
 - gulp
 - compass
 
-## How to
+## Setup
 
 ```
     $ npm install
+    $ pip install -r requirements.txt
 
 ```
-
 Install livereload extension
 
+## Run
 
+```
+    $ gulp
+```
