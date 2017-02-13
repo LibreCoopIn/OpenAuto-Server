@@ -87,7 +87,7 @@ gulp.task('serve:backend', function () {
   var child = spawn('python', ['manage.py', 'runserver', '0.0.0.0:' + devServerPort], {
       stdio: 'inherit'
   });
-  process.on("uncaughtException", function() { process.kill(child.pid) });
+  process.on("uncaughtException", function() { process.kill(child.pid); });
 });
 
 // concat: js and css
