@@ -4,7 +4,7 @@ require 'compass/import-once/activate'
 # Set this to the root of your project when deployed:
 http_path = "/"
 css_dir = "assets/stylesheets"
-sass_dir = "assets/sass"
+sass_dir = "assets/scss"
 images_dir = "assets/images"
 javascripts_dir = "assets/javascripts"
 
@@ -17,4 +17,4 @@ javascripts_dir = "assets/javascripts"
 # To disable debugging comments that display the original location of your selectors. Uncomment:
 # line_comments = false
 
-preferred_syntax = :sass
+preferred_syntax = :scss

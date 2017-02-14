@@ -11,6 +11,7 @@ var gulp          = require('gulp'),
   spawn           = require('child_process').spawn;
 	path            = require('path');
 
+
 //the title and icon that will be used for the Gulp notifications
 var notifyInfo = {
 	title: 'Gulp',
@@ -27,25 +28,26 @@ var plumberErrorHandler = { errorHandler: notify.onError({
 
 //styles
 gulp.task('styles', function() {
-	return gulp.src(['assets/sass/**/*.scss'])
+	return gulp.src(['assets/scss/**/*.scss'])
 		.pipe(plumber(plumberErrorHandler))
 		.pipe(compass({
 			css: 'assets/stylesheets',
-			sass: 'assets/sass',
+			sass: 'assets/scss',
 			image: 'assets/images',
 			js: 'assets/javascripts',
       require: ['susy']
 		}))
 		.pipe(autoprefixer('last 2 version', 'safari 5', 'ie 7', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-		.pipe(gulp.dest('html/css'))
+		.pipe(concat('main.css'))
+		.pipe(gulp.dest('assets/build/css'))
 		.pipe(rename({ suffix: '.min' }))
 		.pipe(minifycss())
-		.pipe(gulp.dest('html/css'));
+		.pipe(gulp.dest('assets/build/css'));
 });
 
 //scripts
 gulp.task('scripts', function() {
-	return gulp.src('assets/**/*.js')
+	return gulp.src('assets/javascripts/**/*.js')
 		.pipe(plumber(plumberErrorHandler))
 		.pipe(concat('main.js'))
 		.pipe(gulp.dest('assets/build/js'))
@@ -59,13 +61,13 @@ gulp.task('live', function() {
 	livereload.listen();
 
 	//watch .scss files
-	gulp.watch('assets/sass/**/*.scss', ['styles']);
+	gulp.watch(['assets/scss/*.scss', 'assets/scss/**/*.scss'], ['styles']);
 
 	//watch .js files
 	gulp.watch('assets/js/**/*.js', ['scripts']);
 
 	//reload when a template file, the minified css, or the minified js file changes
-	gulp.watch(['templates/**/*.html', 'assets/build/css/styles.min.css', 'assets/buil/js/main.min.js'], function(event) {
+	gulp.watch(['templates/**/*.html', 'assets/build/css/main.min.css', 'assets/buil/js/main.min.js'], function(event) {
 		gulp.src(event.path)
 			.pipe(plumber())
 			.pipe(livereload())
@@ -82,14 +84,10 @@ gulp.task('serve:backend', function () {
   var devServerPort = process.env.PORT || 8000;
   process.env.PYTHONUNBUFFERED = 1;
   process.env.PYTHONDONTWRITEBITECODE = 1;
-  spawn('python', ['manage.py', 'runserver', '0.0.0.0:' + devServerPort], {
+  var child = spawn('python', ['manage.py', 'runserver', '0.0.0.0:' + devServerPort], {
       stdio: 'inherit'
   });
-  //spawn({
-    //cmd:'python manage.py',
-    //args: ['runserver', '0.0.0.0:' + devServerPort],
-    //{ stdio: 'inherit' }
-  //});
+  process.on("uncaughtException", function() { process.kill(child.pid); });
 });
 
 // concat: js and css
@@ -97,7 +95,6 @@ gulp.task('serve:backend', function () {
 // uglify js
 // watch
 // livereload
-//
 
 gulp.task('default', function() {
   gulp.start('serve:backend');
